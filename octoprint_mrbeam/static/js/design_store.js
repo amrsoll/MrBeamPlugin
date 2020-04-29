@@ -10,12 +10,9 @@ $(function () {
         self.analytics = params[2];
         self.settings = params[3];
 
-        self.devEmail = null;
-
         // todo: should we do this before?
         // @iratxe: what if the user is not logged in yet. You might want to to this also on onUserLoggedIn
         self.onAllBound = function () {
-            self.setDevEmail();
             self.prepareDesignStoreTab();
         };
 
@@ -54,19 +51,6 @@ $(function () {
             design_store_iframe.attr('src', self.DESIGN_STORE_IFRAME_SRC);
         };
 
-        self.setDevEmail = function(devEmail) {
-            // TODO ANDYTEST
-            try {
-                self.devEmail = devEmail || self.settings.settings.plugins.mrbeam.dev.design_store_email()
-            } catch (e) {}
-            if (self.devEmail) {
-                console.log("Design Store Dev Email: " + self.devEmail)
-            }
-            if (devEmail && self.devEmail) {
-                self.prepareDesignStoreTab()
-            }
-        }
-
         self.sendMessageToDesignStoreIframe = function (event, payload) {
             console.log('## Plugin sending ##');
             let data = {
@@ -82,7 +66,7 @@ $(function () {
             $('#design_store_offline_placeholder').hide();
 
             let userData = {
-                email: self.devEmail || self.loginState.username(),
+                email: self.settings.settings.plugins.mrbeam.dev.design_store_email() || self.loginState.username(),
                 serial: MRBEAM_SERIAL,
                 user_token: self.loginState.currentUser().settings.mrbeam.user_token,
                 version: BEAMOS_VERSION,

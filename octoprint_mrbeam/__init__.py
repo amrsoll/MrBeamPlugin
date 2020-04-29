@@ -381,6 +381,9 @@ class MrBeamPlugin(octoprint.plugin.SettingsPlugin,
 				self._settings.set_boolean(["focusReminder"], data["focusReminder"])
 			if "dev" in data and "software_tier" in data['dev']:
 				switch_software_channel(self, data["dev"]["software_tier"])
+			# dev only
+			if self.is_dev_env() and "dev" in data and "design_store_email" in data['dev']:
+				self._settings.set(["dev", "design_store_email"], data['dev']["design_store_email"])
 		except Exception as e:
 			self._logger.exception("Exception in on_settings_save() ")
 			raise e
@@ -596,7 +599,8 @@ class MrBeamPlugin(octoprint.plugin.SettingsPlugin,
 		 ]
 		if not self.is_prod_env('local'):
 			result.extend([
-				dict(type='settings', name="DEV Machine Profiles", template='settings/lasercutterprofiles_settings.jinja2', suffix="_lasercutterprofiles", custom_bindings=False)
+				# dict(type='settings', name="DEV Machine Profiles", template='settings/lasercutterprofiles_settings.jinja2', suffix="_lasercutterprofiles", custom_bindings=False)
+				dict(type='settings', name="DEV Design Store", template='settings/dev_design_store_settings.jinja2', suffix="_design_store", custom_bindings=False)
 			])
 		result.extend(self.wizard_config.get_wizard_config_to_show())
 		return result
