@@ -122,6 +122,9 @@ Snap.plugin(function (Snap, Element, Paper, global) {
                 );
             }
         };
+        image.onerror = function () {
+            // ANDYTEST
+        };
 
         image.src = url;
     };
