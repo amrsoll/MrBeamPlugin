@@ -6,7 +6,7 @@ on:
       - develop
   workflow_dispatch:
   schedule:
-    - cron: "0 */24 * *"
+    - cron: "0 */12 * *"
 
 jobs:
   install-branch:
@@ -29,7 +29,7 @@ jobs:
           fetch-depth: 0
       - name: 👷 Build and install octoprint
         run: |
-          pip install https://github.com/mrbeam/OctoPrint/archive/mrbeam2-stable.zip
+          pip install https://github.com/mrbeam/OctoPrint/archive/f_octoprint_1.4.zip --user
       - name: 👷 Build and install checkout
         run: |
           pip install .
